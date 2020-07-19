@@ -41,40 +41,39 @@ class _StatewiseState extends State<Statewise> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView.builder(
-          itemCount: allState == null ? 0 : allState.states.length,
-          itemBuilder: (BuildContext context, int index) {
-            return StatesCard(
-              stateName: Text(
-                allState == null ? "Updating" : allState.states[index].state,
-                style: TextStyle(
-                    color: Colors.orange, fontWeight: FontWeight.bold),
-              ),
-              totalIcon: Icon(
-                Icons.all_inclusive,
-                color: Colors.yellow,
-              ),
-              totalInfected: Text(
-                allState == null
-                    ? "Updating"
-                    : allState.states[index].total.toString(),
-              ),
-              totalDeathsIcon: Icon(
-                Icons.sentiment_dissatisfied,
-                color: Colors.red,
-              ),
-              totalDeaths: Text(allState == null
-                  ? "Updating"
-                  : allState.states[index].deaths.toString()),
-              totalRecoveryIcon: Icon(
-                Icons.sentiment_satisfied,
-                color: Colors.green,
-              ),
-              totalRecovered: Text(allState == null
-                  ? "Updating"
-                  : allState.states[index].recovered.toString()),
-            );
-          }),
-    );
+        child: Scaffold(
+      backgroundColor: Colors.black,
+      body: allState == null
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: allState == null ? 0 : allState.states.length,
+              itemBuilder: (BuildContext context, int index) {
+                return StatesCard(
+                  stateName: Text(
+                    allState.states[index].state,
+                    style: TextStyle(
+                        color: Colors.orange, fontWeight: FontWeight.bold),
+                  ),
+                  totalIcon: Icon(
+                    Icons.all_inclusive,
+                    color: Colors.yellow,
+                  ),
+                  totalInfected: Text(
+                    allState.states[index].total.toString(),
+                  ),
+                  totalDeathsIcon: Icon(
+                    Icons.sentiment_dissatisfied,
+                    color: Colors.red,
+                  ),
+                  totalDeaths: Text(allState.states[index].deaths.toString()),
+                  totalRecoveryIcon: Icon(
+                    Icons.sentiment_satisfied,
+                    color: Colors.green,
+                  ),
+                  totalRecovered:
+                      Text(allState.states[index].recovered.toString()),
+                );
+              }),
+    ));
   }
 }

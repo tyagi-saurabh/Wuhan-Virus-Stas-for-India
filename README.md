@@ -2,7 +2,7 @@
 
 A Flutter app which displays the latest stats for the Wuhan Virus patients in India. Data is displayed both in an aggregate format as well as state-wise. A minor change in the code for the json data http call can enable you to view the stats for your country. 
 
-# Motivarion
+# Motivation
 
 I have started to learn flutter around 15 days ago. After going through the basics of some widgets and how to fetch data from the internet, I thought of building up my very own Wuhan Virus Stats tracker for India. The UI is still very basic and suggestions are most welcome.
 

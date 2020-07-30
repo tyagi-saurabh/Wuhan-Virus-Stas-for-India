@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final states = statesFromJson(jsonString);
+//     final walls = wallsFromJson(jsonString);
 
 import 'dart:convert';
 
-States statesFromJson(String str) => States.fromJson(json.decode(str));
+Walls wallsFromJson(String str) => Walls.fromJson(json.decode(str));
 
-String statesToJson(States data) => json.encode(data.toJson());
+String wallsToJson(Walls data) => json.encode(data.toJson());
 
-class States {
-  States({
+class Walls {
+  Walls({
     this.updated,
     this.total,
     this.states,
@@ -19,7 +19,7 @@ class States {
   Total total;
   List<Total> states;
 
-  factory States.fromJson(Map<String, dynamic> json) => States(
+  factory Walls.fromJson(Map<String, dynamic> json) => Walls(
         updated: json["updated"],
         total: Total.fromJson(json["total"]),
         states: List<Total>.from(json["states"].map((x) => Total.fromJson(x))),
@@ -38,21 +38,33 @@ class Total {
     this.active,
     this.recovered,
     this.deaths,
-    this.total,
+    this.cases,
+    this.todayActive,
+    this.todayRecovered,
+    this.todayDeaths,
+    this.todayCases,
   });
 
   String state;
   int active;
   int recovered;
   int deaths;
-  int total;
+  int cases;
+  int todayActive;
+  int todayRecovered;
+  int todayDeaths;
+  int todayCases;
 
   factory Total.fromJson(Map<String, dynamic> json) => Total(
         state: json["state"] == null ? null : json["state"],
         active: json["active"],
         recovered: json["recovered"],
         deaths: json["deaths"],
-        total: json["total"],
+        cases: json["cases"],
+        todayActive: json["todayActive"],
+        todayRecovered: json["todayRecovered"],
+        todayDeaths: json["todayDeaths"],
+        todayCases: json["todayCases"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +72,10 @@ class Total {
         "active": active,
         "recovered": recovered,
         "deaths": deaths,
-        "total": total,
+        "cases": cases,
+        "todayActive": todayActive,
+        "todayRecovered": todayRecovered,
+        "todayDeaths": todayDeaths,
+        "todayCases": todayCases,
       };
 }

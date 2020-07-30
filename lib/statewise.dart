@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import './model.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import './StatesCard.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.black));
   runApp(MaterialApp(
-    color: Colors.black,
     home: Statewise(),
   ));
 }
@@ -18,7 +20,7 @@ class Statewise extends StatefulWidget {
 }
 
 class _StatewiseState extends State<Statewise> {
-  States allState;
+  Walls allState;
   Map statedata;
   Future<String> getStateData() async {
     http.Response response = await http.get(
@@ -27,7 +29,7 @@ class _StatewiseState extends State<Statewise> {
 
     this.setState(() {
       statedata = json.decode(response.body);
-      allState = States.fromJson(statedata);
+      allState = Walls.fromJson(statedata);
     });
 
     return "Success !";
@@ -36,6 +38,7 @@ class _StatewiseState extends State<Statewise> {
   @override
   void initState() {
     this.getStateData();
+    SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
   @override
@@ -59,7 +62,7 @@ class _StatewiseState extends State<Statewise> {
                     color: Colors.yellow,
                   ),
                   totalInfected: Text(
-                    allState.states[index].total.toString(),
+                    allState.states[index].cases.toString(),
                   ),
                   totalDeathsIcon: Icon(
                     Icons.sentiment_dissatisfied,

@@ -4,11 +4,14 @@ import 'package:responsive_framework/responsive_framework.dart';
 import './MyCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'dart:convert';
 import './statewise.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.black));
   runApp(MaterialApp(
     home: CovidStats(),
     routes: <String, WidgetBuilder>{
@@ -20,9 +23,9 @@ void main() {
         minWidth: 480,
         defaultScale: true,
         breakpoints: [
-          ResponsiveBreakpoint.resize(480, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(480, name: MOBILE),
           ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+          ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
         ],
         background: Container(color: Color(0xFFF5F5F5))),
     initialRoute: "/",
@@ -52,6 +55,7 @@ class _CovidStatsState extends State<CovidStats> {
   @override
   void initState() {
     this.getData();
+    SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
   @override

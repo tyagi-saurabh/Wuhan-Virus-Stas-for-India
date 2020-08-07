@@ -10,6 +10,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.black));
   runApp(MaterialApp(
+    color: Colors.black,
     home: Statewise(),
   ));
 }

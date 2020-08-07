@@ -13,6 +13,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.black));
   runApp(MaterialApp(
+    color: Colors.black,
     home: CovidStats(),
     routes: <String, WidgetBuilder>{
       "/Statewise": (BuildContext context) => Statewise()
@@ -69,6 +70,7 @@ class _CovidStatsState extends State<CovidStats> {
                 padding: EdgeInsets.all(20.0),
                 alignment: Alignment.center,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Center(
@@ -138,6 +140,7 @@ class _CovidStatsState extends State<CovidStats> {
                       number: Text(data['recovered'].toString()),
                     ),
                     RaisedButton(
+                      autofocus: true,
                       child: Text(
                         "State Wise Data",
                         style: TextStyle(fontWeight: FontWeight.bold),

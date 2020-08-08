@@ -75,7 +75,10 @@ class _CovidStatsState extends State<CovidStats> {
                   children: <Widget>[
                     Center(
                       child: Text(
-                        "Today" + " " + (formatTime(data['updated'])),
+                        "Last Updated" +
+                            ":" +
+                            " " +
+                            (formatTime(data['updated'])),
                         style: TextStyle(
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,

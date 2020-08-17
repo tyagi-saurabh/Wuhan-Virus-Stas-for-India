@@ -66,95 +66,131 @@ class _CovidStatsState extends State<CovidStats> {
         backgroundColor: Colors.black,
         body: data == null
             ? Center(child: CircularProgressIndicator())
-            : Container(
-                padding: EdgeInsets.all(20.0),
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Last Updated" +
-                            ":" +
-                            " " +
-                            (formatTime(data['updated'])),
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0),
+            : Column(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Container(
+                      padding: EdgeInsets.all(20.0),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Last Updated" +
+                                  ":" +
+                                  " " +
+                                  (formatTime(data['updated'])),
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24.0),
+                            ),
+                          ),
+                          MyCard(
+                            title: Text("New Cases"),
+                            icon: Icon(
+                              Icons.arrow_upward,
+                              color: Colors.orange,
+                            ),
+                            number: Text(
+                              data['todayCases'].toString(),
+                            ),
+                          ),
+                          MyCard(
+                            title: Text("Death's Today"),
+                            icon: Icon(
+                              Icons.warning,
+                              color: Colors.red,
+                            ),
+                            number: Text(
+                              data['todayDeaths'].toString(),
+                            ),
+                          ),
+                          MyCard(
+                            title: Text("Recovered Today"),
+                            icon: Icon(
+                              Icons.autorenew,
+                              color: Colors.green,
+                            ),
+                            number: Text(
+                              data['todayRecovered'].toString(),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Overall",
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24.0),
+                            ),
+                          ),
+                          MyCard(
+                            title: Text("Total Cases"),
+                            icon: Icon(
+                              Icons.all_inclusive,
+                              color: Colors.yellow,
+                            ),
+                            number: Text(
+                              data['cases'].toString(),
+                            ),
+                          ),
+                          MyCard(
+                            title: Text("Total Deaths"),
+                            icon: Icon(
+                              Icons.sentiment_dissatisfied,
+                              color: Colors.red,
+                            ),
+                            number: Text(
+                              data['deaths'].toString(),
+                            ),
+                          ),
+                          MyCard(
+                            title: Text("Total Recovered"),
+                            icon: Icon(
+                              Icons.sentiment_satisfied,
+                              color: Colors.green,
+                            ),
+                            number: Text(
+                              data['recovered'].toString(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    MyCard(
-                      title: Text("New Cases"),
-                      icon: Icon(
-                        Icons.arrow_upward,
-                        color: Colors.orange,
-                      ),
-                      number: Text(data['todayCases'].toString()),
-                    ),
-                    MyCard(
-                      title: Text("Death's Today"),
-                      icon: Icon(
-                        Icons.warning,
-                        color: Colors.red,
-                      ),
-                      number: Text(data['todayDeaths'].toString()),
-                    ),
-                    MyCard(
-                      title: Text("Recovered Today"),
-                      icon: Icon(
-                        Icons.autorenew,
-                        color: Colors.green,
-                      ),
-                      number: Text(data['todayRecovered'].toString()),
-                    ),
-                    Center(
-                      child: Text(
-                        "Overall",
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30),
+                              ),
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.black,
+                                size: 25,
+                              ),
+                              onPressed: () =>
+                                  Navigator.of(context).pushNamed("/Statewise"),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    MyCard(
-                      title: Text("Total Cases"),
-                      icon: Icon(
-                        Icons.all_inclusive,
-                        color: Colors.yellow,
-                      ),
-                      number: Text(data['cases'].toString()),
-                    ),
-                    MyCard(
-                      title: Text("Total Deaths"),
-                      icon: Icon(
-                        Icons.sentiment_dissatisfied,
-                        color: Colors.red,
-                      ),
-                      number: Text(data['deaths'].toString()),
-                    ),
-                    MyCard(
-                      title: Text("Total Recovered"),
-                      icon: Icon(
-                        Icons.sentiment_satisfied,
-                        color: Colors.green,
-                      ),
-                      number: Text(data['recovered'].toString()),
-                    ),
-                    RaisedButton(
-                      autofocus: true,
-                      child: Text(
-                        "State Wise Data",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      color: Colors.cyan,
-                      onPressed: () {
-                        Navigator.of(context).pushNamed("/Statewise");
-                      },
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
       ),
     );

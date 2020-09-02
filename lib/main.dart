@@ -39,7 +39,7 @@ class CovidStats extends StatefulWidget {
 }
 
 class _CovidStatsState extends State<CovidStats> {
-  Map data;
+  Map _data;
   Future<String> getData() async {
     http.Response response = await http.get(
         Uri.encodeFull(
@@ -47,7 +47,7 @@ class _CovidStatsState extends State<CovidStats> {
         headers: {"Accept": "application/json"});
 
     this.setState(() {
-      data = json.decode(response.body);
+      _data = json.decode(response.body);
     });
 
     return "Success !";
@@ -64,7 +64,7 @@ class _CovidStatsState extends State<CovidStats> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: data == null
+        body: _data == null
             ? Center(child: CircularProgressIndicator())
             : Column(
                 children: [
@@ -82,7 +82,7 @@ class _CovidStatsState extends State<CovidStats> {
                               "Last Updated" +
                                   ":" +
                                   " " +
-                                  (formatTime(data['updated'])),
+                                  (formatTime(_data['updated'])),
                               style: TextStyle(
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class _CovidStatsState extends State<CovidStats> {
                               color: Colors.orange,
                             ),
                             number: Text(
-                              data['todayCases'].toString(),
+                              _data['todayCases'].toString(),
                             ),
                           ),
                           MyCard(
@@ -106,7 +106,7 @@ class _CovidStatsState extends State<CovidStats> {
                               color: Colors.red,
                             ),
                             number: Text(
-                              data['todayDeaths'].toString(),
+                              _data['todayDeaths'].toString(),
                             ),
                           ),
                           MyCard(
@@ -116,7 +116,7 @@ class _CovidStatsState extends State<CovidStats> {
                               color: Colors.green,
                             ),
                             number: Text(
-                              data['todayRecovered'].toString(),
+                              _data['todayRecovered'].toString(),
                             ),
                           ),
                           Center(
@@ -135,7 +135,7 @@ class _CovidStatsState extends State<CovidStats> {
                               color: Colors.yellow,
                             ),
                             number: Text(
-                              data['cases'].toString(),
+                              _data['cases'].toString(),
                             ),
                           ),
                           MyCard(
@@ -145,7 +145,7 @@ class _CovidStatsState extends State<CovidStats> {
                               color: Colors.red,
                             ),
                             number: Text(
-                              data['deaths'].toString(),
+                              _data['deaths'].toString(),
                             ),
                           ),
                           MyCard(
@@ -155,7 +155,7 @@ class _CovidStatsState extends State<CovidStats> {
                               color: Colors.green,
                             ),
                             number: Text(
-                              data['recovered'].toString(),
+                              _data['recovered'].toString(),
                             ),
                           ),
                         ],

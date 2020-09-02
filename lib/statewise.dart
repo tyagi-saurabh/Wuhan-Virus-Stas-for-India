@@ -21,16 +21,16 @@ class Statewise extends StatefulWidget {
 }
 
 class _StatewiseState extends State<Statewise> {
-  Walls allState;
-  Map statedata;
+  Walls _allState;
+  Map _statedata;
   Future<String> getStateData() async {
     http.Response response = await http.get(
         Uri.encodeFull("https://disease.sh/v3/covid-19/gov/India"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
-      statedata = json.decode(response.body);
-      allState = Walls.fromJson(statedata);
+      _statedata = json.decode(response.body);
+      _allState = Walls.fromJson(_statedata);
     });
 
     return "Success !";
@@ -47,14 +47,14 @@ class _StatewiseState extends State<Statewise> {
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.black,
-      body: allState == null
+      body: _allState == null
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: allState == null ? 0 : allState.states.length,
+              itemCount: _allState == null ? 0 : _allState.states.length,
               itemBuilder: (BuildContext context, int index) {
                 return StatesCard(
                   stateName: Text(
-                    allState.states[index].state,
+                    _allState.states[index].state,
                     style: TextStyle(
                         color: Colors.orange, fontWeight: FontWeight.bold),
                   ),
@@ -63,19 +63,19 @@ class _StatewiseState extends State<Statewise> {
                     color: Colors.yellow,
                   ),
                   totalInfected: Text(
-                    allState.states[index].cases.toString(),
+                    _allState.states[index].cases.toString(),
                   ),
                   totalDeathsIcon: Icon(
                     Icons.sentiment_dissatisfied,
                     color: Colors.red,
                   ),
-                  totalDeaths: Text(allState.states[index].deaths.toString()),
+                  totalDeaths: Text(_allState.states[index].deaths.toString()),
                   totalRecoveryIcon: Icon(
                     Icons.sentiment_satisfied,
                     color: Colors.green,
                   ),
                   totalRecovered:
-                      Text(allState.states[index].recovered.toString()),
+                      Text(_allState.states[index].recovered.toString()),
                 );
               }),
     ));

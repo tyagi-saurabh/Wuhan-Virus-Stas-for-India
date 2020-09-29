@@ -8,11 +8,14 @@ import './StatesCard.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.black));
-  runApp(MaterialApp(
-    color: Colors.black,
-    home: Statewise(),
-  ));
+    SystemUiOverlayStyle(statusBarColor: Colors.black),
+  );
+  runApp(
+    MaterialApp(
+      color: Colors.black,
+      home: Statewise(),
+    ),
+  );
 }
 
 class Statewise extends StatefulWidget {
@@ -38,6 +41,7 @@ class _StatewiseState extends State<Statewise> {
 
   @override
   void initState() {
+    super.initState();
     this.getStateData();
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
@@ -46,7 +50,6 @@ class _StatewiseState extends State<Statewise> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Colors.black,
       body: _allState == null
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(

@@ -11,9 +11,11 @@ import 'package:time_formatter/time_formatter.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.black));
+    SystemUiOverlayStyle(statusBarColor: Colors.black),
+  );
   runApp(MaterialApp(
     color: Colors.black,
+    theme: ThemeData(scaffoldBackgroundColor: Colors.black),
     home: CovidStats(),
     routes: <String, WidgetBuilder>{
       "/Statewise": (BuildContext context) => Statewise()
@@ -55,6 +57,7 @@ class _CovidStatsState extends State<CovidStats> {
 
   @override
   void initState() {
+    super.initState();
     this.getData();
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
@@ -63,7 +66,6 @@ class _CovidStatsState extends State<CovidStats> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
         body: _data == null
             ? Center(child: CircularProgressIndicator())
             : Column(

@@ -13,7 +13,7 @@ class MyCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(10.0),
           child: Column(
-            children: <Widget>[this.title, this.icon, this.number],
+            children: <Widget>[title, icon, number],
           ),
         ),
       ),

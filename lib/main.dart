@@ -1,12 +1,12 @@
-import 'package:Covid_19_Stats/statewise.dart';
+import 'package:Covid_19_Stats/services/api_services.dart';
+import 'package:Covid_19_Stats/screens/statewise.dart';
+import 'package:Covid_19_Stats/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import './MyCard.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'package:flutter/services.dart';
+import 'utilities/mycard.dart';
 import 'dart:convert';
-import './statewise.dart';
+import 'package:flutter/services.dart';
+import 'screens/statewise.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 void main() {
@@ -14,12 +14,8 @@ void main() {
     SystemUiOverlayStyle(statusBarColor: Colors.black),
   );
   runApp(MaterialApp(
-    color: Colors.black,
-    theme: ThemeData(scaffoldBackgroundColor: Colors.black),
+    theme: ThemeData.dark(),
     home: CovidStats(),
-    routes: <String, WidgetBuilder>{
-      "/Statewise": (BuildContext context) => Statewise()
-    },
     builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, widget),
         maxWidth: 2340,
@@ -41,24 +37,25 @@ class CovidStats extends StatefulWidget {
 }
 
 class _CovidStatsState extends State<CovidStats> {
-  Map _data;
-  Future<String> getData() async {
-    http.Response response = await http.get(
-        Uri.encodeFull(
-            "https://disease.sh/v3/covid-19/countries/India?yesterday=false&strict=true"),
-        headers: {"Accept": "application/json"});
-
-    this.setState(() {
-      _data = json.decode(response.body);
+  dynamic _countryData;
+  dynamic _stateData;
+  void getData() async {
+    dynamic rawCountryData =
+        await FetchData(countryUrl: countryDataUrl).getCountryData();
+    setState(() {
+      _countryData = json.decode(rawCountryData);
     });
+  }
 
-    return "Success !";
+  void getStateData() async {
+    _stateData = await FetchData(statesUrl: stateDataUrl).getStateData();
   }
 
   @override
   void initState() {
     super.initState();
     this.getData();
+    this.getStateData();
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
@@ -66,7 +63,7 @@ class _CovidStatsState extends State<CovidStats> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _data == null
+        body: _countryData == null
             ? Center(child: CircularProgressIndicator())
             : Column(
                 children: [
@@ -84,80 +81,104 @@ class _CovidStatsState extends State<CovidStats> {
                               "Last Updated" +
                                   ":" +
                                   " " +
-                                  (formatTime(_data['updated'])),
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24.0),
+                                  (formatTime(_countryData['updated'])),
+                              style: mainHeadingsTextStyle,
                             ),
                           ),
                           MyCard(
-                            title: Text("New Cases"),
+                            title: Text(
+                              "New Cases",
+                              style: headingsTextStyle,
+                            ),
                             icon: Icon(
                               Icons.arrow_upward,
                               color: Colors.orange,
+                              size: 35,
                             ),
                             number: Text(
-                              _data['todayCases'].toString(),
+                              _countryData['todayCases'].toString(),
+                              style: headingsTextStyle,
                             ),
                           ),
                           MyCard(
-                            title: Text("Death's Today"),
+                            title: Text(
+                              "Death's Today",
+                              style: headingsTextStyle,
+                            ),
                             icon: Icon(
                               Icons.warning,
                               color: Colors.red,
+                              size: 35,
                             ),
                             number: Text(
-                              _data['todayDeaths'].toString(),
+                              _countryData['todayDeaths'].toString(),
+                              style: headingsTextStyle,
                             ),
                           ),
                           MyCard(
-                            title: Text("Recovered Today"),
+                            title: Text(
+                              "Recovered Today",
+                              style: headingsTextStyle,
+                            ),
                             icon: Icon(
                               Icons.autorenew,
                               color: Colors.green,
+                              size: 35,
                             ),
                             number: Text(
-                              _data['todayRecovered'].toString(),
+                              _countryData['todayRecovered'].toString(),
+                              style: headingsTextStyle,
                             ),
                           ),
                           Center(
                             child: Text(
                               "Overall",
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24.0),
+                              style: headingsTextStyle,
                             ),
                           ),
                           MyCard(
-                            title: Text("Total Cases"),
+                            title: Text(
+                              "Total Cases",
+                              style: headingsTextStyle,
+                            ),
                             icon: Icon(
                               Icons.all_inclusive,
                               color: Colors.yellow,
+                              size: 35,
                             ),
                             number: Text(
-                              _data['cases'].toString(),
+                              _countryData['cases'].toString(),
+                              style: headingsTextStyle,
                             ),
                           ),
                           MyCard(
-                            title: Text("Total Deaths"),
+                            title: Text(
+                              "Total Deaths",
+                              style: headingsTextStyle,
+                            ),
                             icon: Icon(
                               Icons.sentiment_dissatisfied,
                               color: Colors.red,
+                              size: 35,
                             ),
                             number: Text(
-                              _data['deaths'].toString(),
+                              _countryData['deaths'].toString(),
+                              style: headingsTextStyle,
                             ),
                           ),
                           MyCard(
-                            title: Text("Total Recovered"),
+                            title: Text(
+                              "Total Recovered",
+                              style: headingsTextStyle,
+                            ),
                             icon: Icon(
                               Icons.sentiment_satisfied,
                               color: Colors.green,
+                              size: 35,
                             ),
                             number: Text(
-                              _data['recovered'].toString(),
+                              _countryData['recovered'].toString(),
+                              style: headingsTextStyle,
                             ),
                           ),
                         ],
@@ -165,7 +186,6 @@ class _CovidStatsState extends State<CovidStats> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40),
                       child: Row(
@@ -184,8 +204,16 @@ class _CovidStatsState extends State<CovidStats> {
                                 color: Colors.black,
                                 size: 25,
                               ),
-                              onPressed: () =>
-                                  Navigator.of(context).pushNamed("/Statewise"),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Statewise(
+                                      stateRawData: _stateData,
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                         ],

@@ -25,13 +25,13 @@ class StatesCard extends StatelessWidget {
           padding: EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
-              this.stateName,
-              this.totalIcon,
-              this.totalInfected,
-              this.totalRecoveryIcon,
-              this.totalRecovered,
-              this.totalDeathsIcon,
-              this.totalDeaths
+              stateName,
+              totalIcon,
+              totalInfected,
+              totalRecoveryIcon,
+              totalRecovered,
+              totalDeathsIcon,
+              totalDeaths
             ],
           ),
         ),
